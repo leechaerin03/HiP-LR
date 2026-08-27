@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#f7f8f9">
+<title>HiP-LR: Hierarchical Planning with Localized Failure Recovery for Long-Horizon Multi-Robot Tasks</title>
+<meta name="description" content="HiP-LR: Hierarchical Planning with Localized Failure Recovery for Long-Horizon Multi-Robot Tasks. Findings of the ACL: EMNLP 2026.">
+<meta property="og:title" content="HiP-LR: Hierarchical Planning with Localized Failure Recovery for Long-Horizon Multi-Robot Tasks">
+<meta property="og:description" content="Findings of the ACL: EMNLP 2026">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f7f8f9;
+  --fg:#1c1c1c;
+  --muted:#5b5b5b;
+  --link:#276FBF;
+  --rule:#dfe3e6;
+  --panel:#ffffff;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--fg);
+  font-family:"Noto Sans",Helvetica,Arial,sans-serif;
+  font-size:17px;
+  line-height:1.7;
+}
+.container{max-width:900px;margin:0 auto;padding:0 22px}
+a{color:var(--link);text-decoration:none}
+a:hover{text-decoration:underline}
+:focus-visible{outline:2px solid var(--link);outline-offset:3px}
+hr{border:0;border-top:1px solid var(--rule);margin:44px 0}
+
+/* ---------- masthead ---------- */
+header{text-align:center;padding:56px 0 0}
+h1{
+  font-size:clamp(22px,3.05vw,30px);
+  font-weight:700;line-height:1.28;letter-spacing:-.01em;
+  margin:0 0 28px;
+  text-wrap:balance;
+  hyphens:none;
+  -webkit-hyphens:none;
+}
+.nb{white-space:nowrap}
+.authors{font-size:19px;font-weight:500;line-height:1.9;margin:0 0 10px;text-align:center}
+.authors a{margin:0 7px}
+.affil{font-size:19px;font-weight:500;margin:0 0 4px;text-align:center}
+.venue{font-size:19px;font-weight:500;color:var(--muted);margin:0 0 28px;text-align:center}
+
+.btns{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-bottom:8px}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  background:#2b2b2b;color:#fff;border-radius:999px;
+  padding:9px 22px;font-size:16px;font-weight:500;
+}
+.btn:hover{background:#000;text-decoration:none}
+.btn.off{background:#b4bbc1;cursor:default}
+.btn.off:hover{background:#b4bbc1}
+.btn svg{width:16px;height:16px;fill:currentColor}
+
+/* ---------- sections ---------- */
+h2.sec{
+  text-align:center;font-size:30px;font-weight:700;
+  margin:0 0 22px;letter-spacing:-.01em;
+}
+p{margin:0 0 18px;text-align:justify}
+p.center{text-align:center}
+
+/* ---------- figures ---------- */
+figure{margin:0 0 8px;text-align:center}
+figure img{
+  max-width:100%;height:auto;
+  background:var(--panel);border:1px solid var(--rule);border-radius:6px;
+}
+figcaption{
+  font-size:16px;line-height:1.6;color:var(--muted);
+  max-width:760px;margin:14px auto 0;
+}
+
+pre{
+  background:var(--panel);border:1px solid var(--rule);border-radius:6px;
+  padding:18px 20px;overflow-x:auto;
+  font-family:"Roboto Mono",monospace;font-size:13.5px;line-height:1.6;margin:0 0 18px;
+}
+footer{text-align:center;font-size:15px;color:var(--muted);padding:10px 0 60px}
+
+@media (max-width:620px){
+  body{font-size:16px}
+  header{padding-top:40px}
+  .authors,.affil,.venue{font-size:17px}
+  h1 br{display:none}
+  p{text-align:left}
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<header>
+  <h1><span class="nb">HiP-LR</span>: Hierarchical Planning with Localized<br>Failure Recovery for <span class="nb">Long-Horizon</span> <span class="nb">Multi-Robot</span> Tasks</h1>
+
+  <!-- 저자 공개할 때 아래 두 줄의 주석을 풀고 채우세요
+  <p class="authors"><a href="">First Author</a> <a href="">Second Author</a></p>
+  <p class="affil">Affiliation</p>
+  -->
+
+  <p class="venue">Findings of the ACL: EMNLP 2026</p>
+
+  <div class="btns">
+    <a class="btn" href="#" target="_blank" rel="noopener">
+      <svg viewBox="0 0 384 512"><path d="M320 464c8.8 0 16-7.2 16-16V160H256c-17.7 0-32-14.3-32-32V48H64c-8.8 0-16 7.2-16 16V448c0 8.8 7.2 16 16 16H320zM0 64C0 28.7 28.7 0 64 0H229.5c17 0 33.3 6.7 45.3 18.7l90.5 90.5c12 12 18.7 28.3 18.7 45.3V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V64z"/></svg>
+      Paper
+    </a>
+    <a class="btn" href="https://github.com/leechaerin03/HiP-LR" target="_blank" rel="noopener">
+      <svg viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8z"/></svg>
+      Code
+    </a>
+    <span class="btn off">
+      <svg viewBox="0 0 576 512"><path d="M549.7 124.1c-6.3-23.7-24.8-42.3-48.3-48.6C458.8 64 288 64 288 64S117.2 64 74.6 75.5c-23.5 6.3-42 24.9-48.3 48.6C15 167.1 15 256 15 256s0 88.9 11.3 131.9c6.3 23.7 24.8 41.5 48.3 47.8C117.2 448 288 448 288 448s170.8 0 213.4-11.5c23.5-6.3 42-24.1 48.3-47.8C561 344.9 561 256 561 256s0-88.9-11.3-131.9zM232 337V175l142 81-142 81z"/></svg>
+      Video &mdash; soon
+    </span>
+  </div>
+</header>
+
+<hr>
+
+<h2 class="sec">Abstract</h2>
+
+<p>Large Language Model (LLM)-driven multi-robot systems struggle with long-horizon tasks due to planning and execution complexities. As task dependencies grow, centralized planners suffer from context explosion and hallucinations, while minor runtime errors can disrupt the entire operation. Current monolithic methods overload LLMs and cause unnecessary global halts during error recovery. To address this, we introduce <b>Hierarchical Planning with Localized Failure Recovery (HiP-LR)</b>. HiP-LR uses a two-level hierarchy to divide complex instructions into dependency-isolated subtask groups. A central agent allocates global tasks, while local agents execute specific plans, keeping LLM contexts compact. Furthermore, a PDDL-based dual-memory structure enables failure-localized replanning: if an error occurs, only the affected group pauses to replan, allowing others to continue uninterrupted. Evaluated on MAP-THOR, HiP-LR improves the task success rate by 38% and reduces replan-wait costs by 90% over state-of-the-art baselines. Furthermore, HiP-LR demonstrates highly robust recovery capabilities on our novel failure-injection benchmark, RECAP-THOR.</p>
+
+<hr>
+
+<h2 class="sec">Framework</h2>
+
+<!-- ▼▼▼ 프레임워크 그림 자리 ▼▼▼
+     images 폴더에 파일을 올리고 src 경로와 alt 설명만 바꾸면 됩니다. -->
+<figure>
+  <img src="images/framework.png" alt="Overview of the HiP-LR framework.">
+  <figcaption>Overview of the HiP-LR framework.</figcaption>
+</figure>
+<!-- ▲▲▲ 프레임워크 그림 자리 ▲▲▲ -->
+
+<hr>
+
+<h2 class="sec">Citation</h2>
+
+<pre>@inproceedings{hiplr2026,
+    title     = "HiP-LR: Hierarchical Planning with Localized Failure
+                 Recovery for Long-Horizon Multi-Robot Tasks",
+    author    = "",
+    booktitle = "Findings of the Association for Computational
+                 Linguistics: EMNLP 2026",
+    year      = "2026"}</pre>
+
+<hr>
+
+<footer>
+  Findings of the ACL: EMNLP 2026
+</footer>
+
+</div>
+
+</body>
+</html>
