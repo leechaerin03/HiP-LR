@@ -20,10 +20,6 @@
   --link:#276FBF;
   --rule:#dfe3e6;
   --panel:#ffffff;
-  --r1:#276FBF;
-  --r2:#2f8f6f;
-  --r3:#c07a10;
-  --fail:#b03a3a;
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
@@ -52,17 +48,10 @@ h1{
   -webkit-hyphens:none;
 }
 .nb{white-space:nowrap}
-.authors{
-  font-size:19px;font-weight:500;line-height:1.9;
-  margin:0 0 10px;
-}
+.authors{font-size:19px;font-weight:500;line-height:1.9;margin:0 0 10px;text-align:center}
 .authors a{margin:0 7px}
-.affil{font-size:19px;font-weight:500;margin:0 0 4px}
-.venue{font-size:19px;font-weight:500;color:var(--muted);margin:0 0 28px}
-.ph{
-  font-family:"Roboto Mono",monospace;font-size:14px;font-weight:400;
-  background:rgba(176,58,58,.1);color:var(--fail);padding:2px 7px;border-radius:3px;
-}
+.affil{font-size:19px;font-weight:500;margin:0 0 4px;text-align:center}
+.venue{font-size:19px;font-weight:500;color:var(--muted);margin:0 0 28px;text-align:center}
 
 .btns{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-bottom:8px}
 .btn{
@@ -75,77 +64,24 @@ h1{
 .btn.off:hover{background:#b4bbc1}
 .btn svg{width:16px;height:16px;fill:currentColor}
 
-.news{
-  text-align:center;font-size:17.5px;line-height:1.65;
-  max-width:760px;margin:0 auto;
-}
-
 /* ---------- sections ---------- */
 h2.sec{
   text-align:center;font-size:30px;font-weight:700;
   margin:0 0 22px;letter-spacing:-.01em;
 }
-h3.sub{
-  text-align:center;font-size:22px;font-weight:700;margin:38px 0 16px;
-}
 p{margin:0 0 18px;text-align:justify}
 p.center{text-align:center}
-.note{font-size:15px;color:var(--muted);text-align:center;margin-top:14px}
-.tag{
-  display:inline-block;font-family:"Roboto Mono",monospace;font-size:13px;
-  background:rgba(39,111,191,.1);color:var(--link);padding:2px 8px;border-radius:3px;
-}
 
-/* ---------- figure / schedule ---------- */
-figure{margin:0}
-.fig-wrap{
+/* ---------- figures ---------- */
+figure{margin:0 0 8px;text-align:center}
+figure img{
+  max-width:100%;height:auto;
   background:var(--panel);border:1px solid var(--rule);border-radius:6px;
-  padding:24px 22px 16px;
-}
-.switch{display:flex;justify-content:center;gap:0;margin-bottom:22px}
-.switch button{
-  font-family:"Noto Sans",sans-serif;font-size:15px;font-weight:500;
-  background:transparent;color:var(--fg);
-  border:1px solid #2b2b2b;padding:8px 20px;cursor:pointer;
-}
-.switch button:first-child{border-radius:999px 0 0 999px}
-.switch button:last-child{border-radius:0 999px 999px 0;border-left:0}
-.switch button[aria-pressed="true"]{background:#2b2b2b;color:#fff}
-
-.track{display:grid;grid-template-columns:80px 1fr;gap:14px;align-items:center;margin-bottom:11px}
-.track .name{
-  font-family:"Roboto Mono",monospace;font-size:13px;
-  color:var(--muted);text-align:right;
-}
-.lane{position:relative;height:32px;background:rgba(28,28,28,.05);border-radius:3px}
-.bar{
-  position:absolute;top:0;height:32px;border-radius:3px;
-  display:flex;align-items:center;padding:0 9px;overflow:hidden;
-  font-family:"Roboto Mono",monospace;font-size:12px;color:#fff;white-space:nowrap;
-  transition:left .55s cubic-bezier(.4,0,.2,1),width .55s cubic-bezier(.4,0,.2,1),opacity .35s;
-}
-.bar.r1{background:var(--r1)}
-.bar.r2{background:var(--r2)}
-.bar.r3{background:var(--r3)}
-.bar.blocked{background:repeating-linear-gradient(45deg,var(--fail),var(--fail) 5px,#8f2e2e 5px,#8f2e2e 10px)}
-.bar.ghost{opacity:0}
-.axis{
-  display:flex;justify-content:space-between;margin:12px 0 0 94px;
-  font-family:"Roboto Mono",monospace;font-size:12px;color:var(--muted);
-  border-top:1px solid var(--rule);padding-top:7px;
 }
 figcaption{
-  font-size:16px;line-height:1.6;text-align:center;
-  max-width:720px;margin:20px auto 0;
+  font-size:16px;line-height:1.6;color:var(--muted);
+  max-width:760px;margin:14px auto 0;
 }
-
-/* ---------- modules ---------- */
-.mods{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
-.mod{
-  background:var(--panel);border:1px solid var(--rule);border-radius:6px;padding:18px 18px;
-}
-.mod h4{font-size:17px;font-weight:700;margin:10px 0 8px}
-.mod p{font-size:15px;line-height:1.55;color:var(--muted);margin:0;text-align:left}
 
 pre{
   background:var(--panel);border:1px solid var(--rule);border-radius:6px;
@@ -159,12 +95,8 @@ footer{text-align:center;font-size:15px;color:var(--muted);padding:10px 0 60px}
   header{padding-top:40px}
   .authors,.affil,.venue{font-size:17px}
   h1 br{display:none}
-  .track{grid-template-columns:54px 1fr;gap:9px}
-  .axis{margin-left:63px}
-  .bar{font-size:11px;padding:0 6px}
   p{text-align:left}
 }
-@media (prefers-reduced-motion:reduce){.bar{transition:none}}
 </style>
 </head>
 <body>
@@ -174,8 +106,11 @@ footer{text-align:center;font-size:15px;color:var(--muted);padding:10px 0 60px}
 <header>
   <h1><span class="nb">HiP-LR</span>: Hierarchical Planning with Localized<br>Failure Recovery for <span class="nb">Long-Horizon</span> <span class="nb">Multi-Robot</span> Tasks</h1>
 
-  <p class="authors"><span class="ph">AUTHOR 1</span> <span class="ph">AUTHOR 2</span> <span class="ph">AUTHOR 3</span></p>
-  <p class="affil"><span class="ph">AFFILIATION</span></p>
+  <!-- 저자 공개할 때 아래 두 줄의 주석을 풀고 채우세요
+  <p class="authors"><a href="">First Author</a> <a href="">Second Author</a></p>
+  <p class="affil">Affiliation</p>
+  -->
+
   <p class="venue">Findings of the ACL: EMNLP 2026</p>
 
   <div class="btns">
@@ -196,81 +131,21 @@ footer{text-align:center;font-size:15px;color:var(--muted);padding:10px 0 60px}
 
 <hr>
 
-<p class="news">🎉 <b>[NEW!]</b> HiP-LR has been accepted to <b>Findings of the ACL: EMNLP 2026</b>. Code will be released in this repository at the conference (24&ndash;29 October 2026, Budapest).</p>
-
-<hr>
-
-<h2 class="sec">Motivation</h2>
-
-<figure>
-  <div class="fig-wrap">
-    <div class="switch" role="group" aria-label="Scheduling strategy">
-      <button id="btn-base" aria-pressed="true">Fixed duration</button>
-      <button id="btn-ours" aria-pressed="false">HiP-LR</button>
-    </div>
-
-    <div class="track"><span class="name">Robot A</span><div class="lane" id="lane0"></div></div>
-    <div class="track"><span class="name">Robot B</span><div class="lane" id="lane1"></div></div>
-    <div class="track"><span class="name">Robot C</span><div class="lane" id="lane2"></div></div>
-    <div class="axis"><span>t = 0</span><span>execution time &rarr;</span><span id="tend">t = T</span></div>
-  </div>
-  <figcaption id="readout"></figcaption>
-  <p class="note">Schematic illustration of the failure mode, not measured results. Replace with a figure or video from the paper before publishing.</p>
-</figure>
-
-<hr>
-
 <h2 class="sec">Abstract</h2>
 
-<p>LLM-based planners produce symbolic plans that look correct on paper but break down the moment they meet execution. Actions take an unknown amount of time, skills fail, and robots contend for the same physical space. We refer to this mismatch as the <b>grounding gap</b>.</p>
-
-<p>HiP-LR closes this gap by feeding scene-conditioned predictions of action duration and failure probability directly into a closed-loop scheduler, so that coordination decisions are made <b>before</b> contention forms rather than repaired after the fact. When a failure does occur, recovery is <b>localized</b>: it is contained at the skill level instead of triggering a replan of the whole task hierarchy. We evaluate HiP-LR on long-horizon household rearrangement with heterogeneous robot teams in <a href="https://ai2thor.allenai.org/" target="_blank" rel="noopener">AI2-THOR</a>.</p>
-
-<p class="note">Replace this section with the paper's abstract once the camera-ready is final.</p>
+<p>Large Language Model (LLM)-driven multi-robot systems struggle with long-horizon tasks due to planning and execution complexities. As task dependencies grow, centralized planners suffer from context explosion and hallucinations, while minor runtime errors can disrupt the entire operation. Current monolithic methods overload LLMs and cause unnecessary global halts during error recovery. To address this, we introduce <b>Hierarchical Planning with Localized Failure Recovery (HiP-LR)</b>. HiP-LR uses a two-level hierarchy to divide complex instructions into dependency-isolated subtask groups. A central agent allocates global tasks, while local agents execute specific plans, keeping LLM contexts compact. Furthermore, a PDDL-based dual-memory structure enables failure-localized replanning: if an error occurs, only the affected group pauses to replan, allowing others to continue uninterrupted. Evaluated on MAP-THOR, HiP-LR improves the task success rate by 38% and reduces replan-wait costs by 90% over state-of-the-art baselines. Furthermore, HiP-LR demonstrates highly robust recovery capabilities on our novel failure-injection benchmark, RECAP-THOR.</p>
 
 <hr>
 
-<h2 class="sec">Method</h2>
+<h2 class="sec">Framework</h2>
 
-<p class="center">HiP-LR consists of four modules that connect skill-level grounding to team-level scheduling.</p>
-
-<div class="mods">
-  <div class="mod">
-    <span class="tag">M1</span>
-    <h4>PTD modeling</h4>
-    <p>Phase-type distributions with dual absorbing states model how long a skill takes and whether it succeeds, conditioned on the scene.</p>
-  </div>
-  <div class="mod">
-    <span class="tag">M2</span>
-    <h4>Failure detection</h4>
-    <p>Skill-level failures are caught at the execution layer, where the evidence actually is.</p>
-  </div>
-  <div class="mod">
-    <span class="tag">M3</span>
-    <h4>Shared memory &amp; recovery</h4>
-    <p>Recovery stays local, using team-shared execution context instead of restarting the symbolic plan.</p>
-  </div>
-  <div class="mod">
-    <span class="tag">M4</span>
-    <h4>Allocation &amp; scheduling</h4>
-    <p>Failure probability enters as a cost term, and the scheduler assigns explicit start times, not merely an ordering.</p>
-  </div>
-</div>
-
-<h3 class="sub">Framework overview</h3>
-<p class="note">Add the framework figure here (<code>images/framework.jpg</code>).</p>
-
-<hr>
-
-<h2 class="sec">Results</h2>
-
-<p class="center">Add the main results table, the temporal cross-validation, and the ablation study here once the numbers are final.</p>
-
-<hr>
-
-<h2 class="sec">Code</h2>
-
-<p class="center">The implementation, PTD fitting pipeline, task configurations, and evaluation scripts will be released at <a href="https://github.com/leechaerin03/HiP-LR" target="_blank" rel="noopener">github.com/leechaerin03/HiP-LR</a> during EMNLP 2026.</p>
+<!-- ▼▼▼ 프레임워크 그림 자리 ▼▼▼
+     images 폴더에 파일을 올리고 src 경로와 alt 설명만 바꾸면 됩니다. -->
+<figure>
+  <img src="images/framework.png" alt="Overview of the HiP-LR framework.">
+  <figcaption>Overview of the HiP-LR framework.</figcaption>
+</figure>
+<!-- ▲▲▲ 프레임워크 그림 자리 ▲▲▲ -->
 
 <hr>
 
@@ -287,74 +162,10 @@ footer{text-align:center;font-size:15px;color:var(--muted);padding:10px 0 60px}
 <hr>
 
 <footer>
-  Page for HiP-LR &middot; Findings of the ACL: EMNLP 2026
+  Findings of the ACL: EMNLP 2026
 </footer>
 
 </div>
 
-<script>
-(function(){
-  var DATA = {
-    base: {
-      lanes: [
-        [{s:0,w:20,c:"r1",t:"navigate"},{s:20,w:16,c:"r1",t:"pick"},{s:36,w:52,c:"blocked",t:"blocked \u2014 waiting"}],
-        [{s:0,w:22,c:"r2",t:"navigate"},{s:22,w:14,c:"r2",t:"open"},{s:36,w:52,c:"blocked",t:"blocked \u2014 waiting"}],
-        [{s:0,w:18,c:"r3",t:"navigate"},{s:18,w:18,c:"r3",t:"pick"},{s:36,w:52,c:"blocked",t:"blocked \u2014 waiting"}]
-      ],
-      end: "t = T (unfinished)",
-      note: "<b>Every robot stops.</b> With a constant duration assumed for every action, all three robots reach the same contended region at the same time. One skill fails, the others wait on a precondition that never clears, and the team stalls with the task incomplete."
-    },
-    ours: {
-      lanes: [
-        [{s:0,w:20,c:"r1",t:"navigate"},{s:20,w:16,c:"r1",t:"pick"},{s:38,w:24,c:"r1",t:"place"}],
-        [{s:6,w:22,c:"r2",t:"navigate"},{s:30,w:14,c:"r2",t:"open"},{s:46,w:26,c:"r2",t:"transfer"}],
-        [{s:14,w:18,c:"r3",t:"navigate"},{s:34,w:18,c:"r3",t:"pick"},{s:54,w:28,c:"r3",t:"place"}]
-      ],
-      end: "t = T (complete)",
-      note: "<b>Start times are staggered.</b> Predicted durations let the scheduler place each robot's entry into the contended region at a different time. Contention never forms, so no robot waits on a blocked precondition."
-    }
-  };
-
-  var lanes = [0,1,2].map(function(i){return document.getElementById("lane"+i)});
-  var readout = document.getElementById("readout");
-  var tend = document.getElementById("tend");
-  var bBase = document.getElementById("btn-base");
-  var bOurs = document.getElementById("btn-ours");
-  var built = false;
-
-  function build(key){
-    var d = DATA[key];
-    lanes.forEach(function(lane,i){
-      lane.innerHTML = "";
-      d.lanes[i].forEach(function(b){
-        var el = document.createElement("div");
-        el.className = "bar " + b.c + (built ? "" : " ghost");
-        el.style.left = b.s + "%";
-        el.style.width = b.w + "%";
-        el.textContent = b.t;
-        lane.appendChild(el);
-      });
-    });
-    if(!built){
-      requestAnimationFrame(function(){
-        document.querySelectorAll(".bar.ghost").forEach(function(el){el.classList.remove("ghost")});
-      });
-      built = true;
-    }
-    readout.innerHTML = d.note;
-    tend.textContent = d.end;
-  }
-
-  function select(key){
-    bBase.setAttribute("aria-pressed", key === "base");
-    bOurs.setAttribute("aria-pressed", key === "ours");
-    build(key);
-  }
-
-  bBase.addEventListener("click", function(){select("base")});
-  bOurs.addEventListener("click", function(){select("ours")});
-  select("base");
-})();
-</script>
 </body>
 </html>
