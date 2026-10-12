@@ -2,170 +2,332 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="theme-color" content="#f7f8f9">
-<title>HiP-LR: Hierarchical Planning with Localized Failure Recovery for Long-Horizon Multi-Robot Tasks</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>HiP-LR</title>
 <meta name="description" content="HiP-LR: Hierarchical Planning with Localized Failure Recovery for Long-Horizon Multi-Robot Tasks. Findings of the ACL: EMNLP 2026.">
 <meta property="og:title" content="HiP-LR: Hierarchical Planning with Localized Failure Recovery for Long-Horizon Multi-Robot Tasks">
 <meta property="og:description" content="Findings of the ACL: EMNLP 2026">
 <meta property="og:type" content="website">
+<meta property="og:image" content="https://leechaerin03.github.io/HiP-LR/images/fig1_teaser.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+<!-- Google Analytics: analytics.google.com에서 측정 ID(G-로 시작)를 받아 아래 GA_ID에 넣으면 켜집니다 -->
+<script>
+  (function(){
+    var GA_ID = 'G-XXXXXXXXXX';
+    if (!/^G-[A-Z0-9]+$/.test(GA_ID) || GA_ID === 'G-XXXXXXXXXX') return;
+    var s = document.createElement('script'); s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date()); gtag('config', GA_ID);
+  })();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
+/* Nerfies / VoxPoser layout on Bulma defaults: centered hero, dark rounded link buttons,
+   one short paragraph or caption per figure, light grey bands for figure sections. */
 :root{
-  --bg:#f7f8f9;
-  --fg:#1c1c1c;
-  --muted:#5b5b5b;
-  --link:#276FBF;
-  --rule:#dfe3e6;
-  --panel:#ffffff;
+  color-scheme:light;
+  --bg:#ffffff;
+  --band:#f5f5f5;      /* Bulma hero is-light */
+  --text:#4a4a4a;      /* Bulma body text */
+  --title:#363636;     /* Bulma title */
+  --muted:#7a7a7a;
+  --rule:#dbdbdb;
+  --link:#3273dc;      /* Bulma link */
+  --author:#209cee;    /* Nerfies author color, hsl(204,86%,53%) */
+  --btn:#363636;       /* Bulma is-dark */
+  --body:"Noto Sans", Helvetica, Arial, sans-serif;
+  --mono:"Roboto Mono", ui-monospace, Menlo, Consolas, monospace;
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
-body{
-  margin:0;
-  background:var(--bg);
-  color:var(--fg);
-  font-family:"Noto Sans",Helvetica,Arial,sans-serif;
-  font-size:17px;
-  line-height:1.7;
-}
-.container{max-width:900px;margin:0 auto;padding:0 22px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--body);font-size:16px;line-height:1.6}
+img{max-width:100%;height:auto;display:block;margin-inline:auto}
 a{color:var(--link);text-decoration:none}
 a:hover{text-decoration:underline}
-:focus-visible{outline:2px solid var(--link);outline-offset:3px}
-hr{border:0;border-top:1px solid var(--rule);margin:44px 0}
+:focus-visible{outline:2px solid var(--link);outline-offset:3px;border-radius:3px}
+b,strong{color:var(--title);font-weight:700}
 
-/* ---------- masthead ---------- */
-header{text-align:center;padding:56px 0 0}
+.wrap{max-width:960px;margin-inline:auto;padding-inline:24px}
+.widefig{max-width:1200px;margin-inline:auto;padding-inline:24px}
+.read{max-width:800px;margin-inline:auto}
+
+/* ---------- hero ---------- */
+header{text-align:center;padding-block:48px 8px}
 h1{
-  font-size:clamp(22px,3.05vw,30px);
-  font-weight:700;line-height:1.28;letter-spacing:-.01em;
-  margin:0 0 28px;
-  text-wrap:balance;
-  hyphens:none;
-  -webkit-hyphens:none;
+  color:var(--title);
+  font-size:clamp(22px,3.05vw,30px);font-weight:700;line-height:1.28;letter-spacing:-.01em;
+  margin:0 auto 22px;text-wrap:balance;hyphens:none;-webkit-hyphens:none;
 }
 .nb{white-space:nowrap}
-.authors{font-size:19px;font-weight:500;line-height:1.9;margin:0 0 10px;text-align:center}
-.authors a{margin:0 7px}
-.affil{font-size:19px;font-weight:500;margin:0 0 4px;text-align:center}
-.venue{font-size:19px;font-weight:500;color:var(--muted);margin:0 0 28px;text-align:center}
+.authors{display:flex;flex-wrap:wrap;justify-content:center;gap:0 16px;font-size:1.25rem;margin:0 0 2px;color:var(--title)}
+.authors a{color:var(--author)}
+.authors sup{font-size:.6em;color:var(--muted)}
+.affil{font-size:1.25rem;color:var(--text);margin:0 0 2px}
+.notes{font-size:.85rem;color:var(--muted);margin:0 0 18px}
+.notes span+span{margin-left:12px}
+.venue{font-size:1.5rem;font-weight:600;line-height:1.3;margin:-6px 0 18px}
+.venue a{color:#292929}
+.logos{display:flex;justify-content:center;align-items:center;gap:40px;margin:0 0 24px}
+.logos img{height:40px;width:auto;margin:0}
+@media (max-width:420px){.logos{gap:24px}.logos img{height:32px}}
 
-.btns{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-bottom:8px}
+.links{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:0;padding:0;list-style:none}
 .btn{
-  display:inline-flex;align-items:center;gap:8px;
-  background:#2b2b2b;color:#fff;border-radius:999px;
-  padding:9px 22px;font-size:16px;font-weight:500;
+  display:inline-flex;align-items:center;gap:7px;
+  background:var(--btn);color:#fff;border-radius:290486px;
+  padding:7px 16px;font-size:1rem;line-height:1.5;
 }
-.btn:hover{background:#000;text-decoration:none}
-.btn.off{background:#b4bbc1;cursor:default}
-.btn.off:hover{background:#b4bbc1}
-.btn svg{width:16px;height:16px;fill:currentColor}
+.btn:hover{background:#2f2f2f;text-decoration:none}
+.btn svg{width:16px;height:16px;fill:currentColor;flex:none}
+.btn.off{opacity:.45;cursor:default}
+.btn.off:hover{background:var(--btn)}
+
+/* ---------- teaser ---------- */
+.teaser{padding-block:28px 48px}
+.tagline{font-size:1.25rem;line-height:1.5;text-align:center;color:var(--text);max-width:860px;margin:20px auto 0;text-wrap:balance}
 
 /* ---------- sections ---------- */
-h2.sec{
-  text-align:center;font-size:30px;font-weight:700;
-  margin:0 0 22px;letter-spacing:-.01em;
-}
-p{margin:0 0 18px;text-align:justify}
-p.center{text-align:center}
+section{padding-block:48px}
+section.band{background:var(--band)}
+h2{color:var(--title);font-size:2rem;font-weight:600;line-height:1.125;text-align:center;margin:0 0 24px}
+h2.left,h3.left{text-align:left}
+h3{color:var(--title);font-size:1.5rem;font-weight:600;line-height:1.2;text-align:center;margin:44px 0 18px}
+p{margin:0 0 14px}
+.justify{text-align:justify;hyphens:none}
 
-/* ---------- figures ---------- */
-figure{margin:0 0 8px;text-align:center}
-figure img{
-  max-width:100%;height:auto;
-  background:var(--panel);border:1px solid var(--rule);border-radius:6px;
-}
-figcaption{
-  font-size:16px;line-height:1.6;color:var(--muted);
-  max-width:760px;margin:14px auto 0;
-}
+figure{margin:0}
+h3.first{margin-top:0}
+figcaption{font-size:.9rem;line-height:1.55;text-align:center;color:var(--text);max-width:800px;margin:12px auto 0}
 
-pre{
-  background:var(--panel);border:1px solid var(--rule);border-radius:6px;
-  padding:18px 20px;overflow-x:auto;
-  font-family:"Roboto Mono",monospace;font-size:13.5px;line-height:1.6;margin:0 0 18px;
-}
-footer{text-align:center;font-size:15px;color:var(--muted);padding:10px 0 60px}
+/* ---------- videos ---------- */
+.vid,.vslot{display:block;width:100%;aspect-ratio:16/9;border-radius:8px;background:#000;object-fit:contain}
+.vid.tall{aspect-ratio:7/8}
+.vid.wide169{aspect-ratio:1600/884}
+.vslot{background:#2b2b2b;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:#bdbdbd}
+.vplay{width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,.12);display:grid;place-items:center}
+.vplay svg{width:20px;height:20px;fill:#e0e0e0;margin-left:3px}
+.vtxt{font-size:.9rem;letter-spacing:.02em}
+.vpair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px;max-width:880px;margin:0 auto}
+.vpair > *{min-width:0}
+#videos h4{font-size:1.25rem;font-weight:600;color:var(--title);text-align:center;margin:0 0 12px}
+.vmain{max-width:880px;margin:44px auto 0}
+#videos figcaption{max-width:none}
+@media (max-width:760px){.vpair{grid-template-columns:1fr;gap:32px}.vmain{margin-top:32px}}
+/* ---------- benchmark ---------- */
+.ftypes{list-style:none;margin:20px auto 0;padding:0;max-width:880px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.ftypes li{padding:14px 16px;text-align:center;min-width:0}
+.ftypes li+li{border-left:1px solid var(--rule)}
+.fcode{display:block;font-family:var(--mono);font-size:.85rem;color:var(--muted)}
+.fname{display:block;font-weight:600;color:var(--title);margin:2px 0 4px}
+.fdesc{display:block;font-size:.88rem;line-height:1.45}
+img.t4{max-width:760px;width:100%}
+@media (max-width:760px){.ftypes{grid-template-columns:repeat(2,minmax(0,1fr))}.ftypes li:nth-child(3){border-left:0}.ftypes li:nth-child(n+3){border-top:1px solid var(--rule)}}
+/* ---------- results ---------- */
+.tables{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:40px;align-items:start}
+.tables img{width:100%}
+.scrollx{overflow-x:auto}
+@media (max-width:760px){.tables{grid-template-columns:1fr;gap:20px}.scrollx img{min-width:640px}}
+
+.pair{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:32px;align-items:start}
+.pair > *{min-width:0}
+.pair h4{font-size:1.1rem;color:var(--title);font-weight:600;text-align:center;margin:0 0 10px}
+.pair .shot{height:300px;display:flex;align-items:center;justify-content:center}
+.pair .shot img{max-height:100%;width:auto}
+@media (max-width:760px){.pair{grid-template-columns:1fr}.pair .shot{height:auto}}
+
+pre{margin:0;background:var(--band);padding:16px 20px;overflow-x:auto;font-family:var(--mono);font-size:.84rem;line-height:1.55;color:var(--title)}
+
+footer{background:#fafafa;padding-block:48px;font-size:.9rem;color:var(--text);text-align:center}
+footer p{margin:0 0 6px}
 
 @media (max-width:620px){
-  body{font-size:16px}
-  header{padding-top:40px}
-  .authors,.affil,.venue{font-size:17px}
+  header{padding-top:36px}
   h1 br{display:none}
-  p{text-align:left}
+  .authors,.affil,.venue{font-size:1.05rem}
+  .tagline{font-size:1.05rem}
+  h2{font-size:1.6rem}
+  h3{font-size:1.25rem}
+  section{padding-block:40px}
+  .justify{text-align:left}
+  .widefig{padding-inline:12px}
 }
 </style>
 </head>
 <body>
 
-<div class="container">
+<header class="wrap">
+  <h1><span class="nb">HiP-LR</span>: Hierarchical Planning with Localized <br>Failure Recovery for <span class="nb">Long-Horizon</span> <span class="nb">Multi-Robot</span> Tasks</h1>
+  <p class="venue"><a href="https://2026.emnlp.org/" target="_blank" rel="noopener">EMNLP 2026 Findings</a></p>
 
-<header>
-  <h1><span class="nb">HiP-LR</span>: Hierarchical Planning with Localized<br>Failure Recovery for <span class="nb">Long-Horizon</span> <span class="nb">Multi-Robot</span> Tasks</h1>
-
-  <!-- 저자 공개할 때 아래 두 줄의 주석을 풀고 채우세요
-  <p class="authors"><a href="">First Author</a> <a href="">Second Author</a></p>
-  <p class="affil">Affiliation</p>
-  -->
-
-  <p class="venue">Findings of the ACL: EMNLP 2026</p>
-
-  <div class="btns">
-    <a class="btn" href="#" target="_blank" rel="noopener">
-      <svg viewBox="0 0 384 512"><path d="M320 464c8.8 0 16-7.2 16-16V160H256c-17.7 0-32-14.3-32-32V48H64c-8.8 0-16 7.2-16 16V448c0 8.8 7.2 16 16 16H320zM0 64C0 28.7 28.7 0 64 0H229.5c17 0 33.3 6.7 45.3 18.7l90.5 90.5c12 12 18.7 28.3 18.7 45.3V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V64z"/></svg>
-      Paper
-    </a>
-    <a class="btn" href="https://github.com/leechaerin03/HiP-LR" target="_blank" rel="noopener">
-      <svg viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8z"/></svg>
-      Code
-    </a>
-    <span class="btn off">
-      <svg viewBox="0 0 576 512"><path d="M549.7 124.1c-6.3-23.7-24.8-42.3-48.3-48.6C458.8 64 288 64 288 64S117.2 64 74.6 75.5c-23.5 6.3-42 24.9-48.3 48.6C15 167.1 15 256 15 256s0 88.9 11.3 131.9c6.3 23.7 24.8 41.5 48.3 47.8C117.2 448 288 448 288 448s170.8 0 213.4-11.5c23.5-6.3 42-24.1 48.3-47.8C561 344.9 561 256 561 256s0-88.9-11.3-131.9zM232 337V175l142 81-142 81z"/></svg>
-      Video &mdash; soon
-    </span>
+  <!-- 저자 홈페이지가 생기면 <span>을 <a href="...">로 바꾸면 됩니다 -->
+  <p class="authors">
+    <span><a href="https://github.com/leechaerin03" target="_blank" rel="noopener">Chaerin Lee</a><sup>*</sup></span>
+    <span><a href="https://github.com/scrla" target="_blank" rel="noopener">Seoyoon Kim</a><sup>*</sup></span>
+    <span>Seungbeen Lee</span>
+    <span><a href="https://scholar.google.com/citations?user=5aapsAsAAAAJ" target="_blank" rel="noopener">Woojin Lee</a><sup>†</sup></span>
+    <span><a href="https://scholar.google.com/citations?user=Wy4ytA0AAAAJ" target="_blank" rel="noopener">Soohwan Song</a><sup>†</sup></span>
+  </p>
+  <p class="affil">Department of Computer Science and Artificial Intelligence, Dongguk University</p>
+  <p class="notes"><span><sup>*</sup>Equal contribution</span><span><sup>†</sup>Corresponding authors</span></p>
+  <div class="logos">
+    <img src="images/dongguk_logo.png" width="600" height="187" alt="Dongguk University">
+    <img src="images/airlab_logo.png" width="682" height="180" alt="AiR Lab">
   </div>
+
+  <ul class="links">
+    <li><a class="btn" href="https://openreview.net/forum?id=HFiTPwe4RB" target="_blank" rel="noopener">
+      <svg viewBox="0 0 384 512" aria-hidden="true"><path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0z"/></svg>Paper</a></li>
+    <!-- arXiv 링크가 생기면 span을 <a class="btn" href="arXiv주소" target="_blank" rel="noopener">로 바꾸세요 -->
+    <li><span class="btn off" aria-disabled="true">
+      <svg viewBox="0 0 512 512" aria-hidden="true"><path d="M32 64C32 46.3 46.3 32 64 32H448c17.7 0 32 14.3 32 32V96H32V64zM48 128H464V448c0 17.7-14.3 32-32 32H80c-17.7 0-32-14.3-32-32V128zM176 208c-13.3 0-24 10.7-24 24s10.7 24 24 24H336c13.3 0 24-10.7 24-24s-10.7-24-24-24H176z"/></svg>arXiv</span></li>
+    <li><a class="btn" href="https://github.com/leechaerin03/HiP-LR" target="_blank" rel="noopener">
+      <svg viewBox="0 0 496 512" aria-hidden="true"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8z"/></svg>Code</a></li>
+    <li><a class="btn" href="files/HiP-LR_poster.pdf" target="_blank" rel="noopener">
+      <svg viewBox="0 0 512 512" aria-hidden="true"><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm48 96a48 48 0 1 1 0 96 48 48 0 1 1 0-96zm-16 320l96-128 64 80 96-144 128 192H96z"/></svg>Poster</a></li>
+  </ul>
 </header>
 
-<hr>
+<div class="wrap teaser">
+  <img src="images/fig1_teaser.jpg" width="2600" height="1082" alt="Four robots in a kitchen. One fails to pick up bread. Top: centralized replanning halts all robots. Bottom: HiP-LR replans only the affected group while the others finish.">
+  <p class="tagline"><b>HiP-LR</b> replans only the subtask group that failed, so the other robots keep working.</p>
+</div>
 
-<h2 class="sec">Abstract</h2>
+<section class="band" id="videos">
+  <div class="wrap">
+    <h2>Videos</h2>
 
-<p>Large Language Model (LLM)-driven multi-robot systems struggle with long-horizon tasks due to planning and execution complexities. As task dependencies grow, centralized planners suffer from context explosion and hallucinations, while minor runtime errors can disrupt the entire operation. Current monolithic methods overload LLMs and cause unnecessary global halts during error recovery. To address this, we introduce <b>Hierarchical Planning with Localized Failure Recovery (HiP-LR)</b>. HiP-LR uses a two-level hierarchy to divide complex instructions into dependency-isolated subtask groups. A central agent allocates global tasks, while local agents execute specific plans, keeping LLM contexts compact. Furthermore, a PDDL-based dual-memory structure enables failure-localized replanning: if an error occurs, only the affected group pauses to replan, allowing others to continue uninterrupted. Evaluated on MAP-THOR, HiP-LR improves the task success rate by 38% and reduces replan-wait costs by 90% over state-of-the-art baselines. Furthermore, HiP-LR demonstrates highly robust recovery capabilities on our novel failure-injection benchmark, RECAP-THOR.</p>
+    <div class="vpair">
+      <figure>
+        <h4>Long-Horizon Task Execution</h4>
+        <video class="vid tall" src="videos/demo_long_horizon.mp4" poster="videos/demo_long_horizon.jpg" autoplay muted loop playsinline preload="metadata"></video>
+        <figcaption>HiP-LR coordinating multiple robots on a long-horizon household task, shown from the top view and each robot's camera.</figcaption>
+      </figure>
+      <figure>
+        <h4>Comparison with Baselines</h4>
+        <video class="vid tall" src="videos/baseline_comparison.mp4" poster="videos/baseline_comparison.jpg" autoplay muted loop playsinline preload="metadata"></video>
+        <figcaption>The same task executed by HiP-LR (top) and a baseline (bottom). HiP-LR completes the task first.</figcaption>
+      </figure>
+    </div>
 
-<hr>
+    <figure class="vmain">
+      <h4>Failure Recovery</h4>
+      <video class="vid wide169" src="videos/failure_recovery.mp4" poster="videos/failure_recovery.jpg" autoplay muted loop playsinline preload="metadata"></video>
+      <figcaption>Placing the spatula fails because the drawer has no valid position. HiP-LR redecomposes only the failed subtask, merges it back into the dependency graph, and stores the spatula in another drawer.</figcaption>
+    </figure>
+  </div>
+</section>
 
-<h2 class="sec">Framework</h2>
+<section id="abstract">
+  <div class="wrap">
+    <h2>Abstract</h2>
+    <div class="read justify">
+      <p>Large Language Model (LLM)-driven multi-robot systems struggle with long-horizon tasks due to planning and execution complexities. As task dependencies grow, centralized planners suffer from context explosion and hallucinations, while minor runtime errors can disrupt the entire operation. Current monolithic methods overload LLMs and cause unnecessary global halts during error recovery. To address this, we introduce Hierarchical Planning with Localized Failure Recovery (HiP-LR). HiP-LR uses a two-level hierarchy to divide complex instructions into dependency-isolated subtask groups. A central agent allocates global tasks, while local agents execute specific plans, keeping LLM contexts compact. Furthermore, a PDDL-based dual-memory structure enables failure-localized replanning: if an error occurs, only the affected group pauses to replan, allowing others to continue uninterrupted. Evaluated on MAP-THOR, HiP-LR improves the task success rate by 38% and reduces replan-wait costs by 90% over state-of-the-art baselines. Furthermore, HiP-LR demonstrates highly robust recovery capabilities on our novel failure-injection benchmark, RECAP-THOR.</p>
+    </div>
+  </div>
+</section>
 
-<!-- ▼▼▼ 프레임워크 그림 자리 ▼▼▼
-     images 폴더에 파일을 올리고 src 경로와 alt 설명만 바꾸면 됩니다. -->
-<figure>
-  <img src="images/fig1_v26 (1).png" alt="Overview of the HiP-LR framework.">
-  <figcaption>Overview of the HiP-LR framework.</figcaption>
-</figure>
-<!-- ▲▲▲ 프레임워크 그림 자리 ▲▲▲ -->
+<section id="method">
+  <div class="wrap"><h2>Method</h2></div>
+  <div class="widefig">
+    <img src="images/fig2_framework.jpg" width="2600" height="931" alt="HiP-LR pipeline: task decomposition and PDDL planning, dependency graph and grouping, agent coordination with dual memory, parallel execution with local replanning.">
+  </div>
+  <div class="wrap">
+    <div class="read justify" style="margin-top:20px">
+      <p>A Central Agent decomposes the instruction into PDDL-grounded subtasks and links them by causal and resource dependencies. Each connected component of this graph becomes an isolated subtask group handled by its own Local Agent. When an action fails, only that group pauses and replans from its PDDL memory, while the other groups keep executing.</p>
+    </div>
+  </div>
+</section>
 
-<hr>
 
-<h2 class="sec">Citation</h2>
+<section id="recap-thor">
+  <div class="wrap">
+    <h2>RECAP-THOR Benchmark</h2>
+    <div class="read justify">
+      <p>RECAP-THOR (<b>RE</b>planning <b>CAP</b>ability under failures in <b>THOR</b>) is a failure-injection benchmark built on AI2-THOR. Every task is designed to fail at a predetermined action, so recovery can be compared across methods under identical conditions.</p>
+    </div>
+    <ul class="ftypes">
+      <li><span class="fcode">T1</span><span class="fname">Unpickable Object</span><span class="fdesc">The target object cannot be picked up.</span></li>
+      <li><span class="fcode">T2</span><span class="fname">No Valid Position</span><span class="fdesc">The receptacle cannot hold every listed item.</span></li>
+      <li><span class="fcode">T3</span><span class="fname">One-Hand Limit</span><span class="fdesc">The robot starts the episode holding another object.</span></li>
+      <li><span class="fcode">T4</span><span class="fname">State Mismatch</span><span class="fdesc">The receptacle closes between planning and execution.</span></li>
+    </ul>
+    <figure style="margin-top:28px">
+      <img class="t4" src="images/table_recap_scenarios.png" width="2049" height="782" alt="RECAP-THOR task scenarios: eight scenarios, two per failure type T1 to T4, each on five AI2-THOR floorplans.">
+      <figcaption>Eight scenario templates, two per failure type, each applied to five floorplans for a total of 40 task instances executed by three robots.</figcaption>
+    </figure>
+  </div>
+</section>
 
-<pre>@inproceedings{hiplr2026,
-    title     = "HiP-LR: Hierarchical Planning with Localized Failure
-                 Recovery for Long-Horizon Multi-Robot Tasks",
-    author    = "",
-    booktitle = "Findings of the Association for Computational
-                 Linguistics: EMNLP 2026",
-    year      = "2026"}</pre>
+<section id="results">
+  <div class="wrap">
+    <h2>Results</h2>
+    <h3 class="first">Task Performance</h3>
+    <figure>
+      <div class="tables">
+        <img src="images/table_mapthor.png" width="1208" height="728" alt="MAP-THOR results. HiP-LR: SR 0.73, TR 0.90, C 0.87, B 0.75, SE 0.48, best in every column.">
+        <img src="images/table_recapthor.png" width="1208" height="408" alt="RECAP-THOR results. HiP-LR: SR 0.47, TR 0.84, C 0.83, B 0.58, SE 0.68.">
+      </div>
+      <figcaption>Benchmark results on MAP-THOR and RECAP-THOR using a three-robot setup. ‡ Approaches with failure recovery capabilities.</figcaption>
+    </figure>
 
-<hr>
+    <h3>Failure Recovery</h3>
+    <figure>
+      <div class="scrollx"><img src="images/fig4_recovery.png" width="1882" height="452" alt="Bar charts of RSR, RW, RT and RTU for KGLAMP, LaMMA-P+ and HiP-LR on MAP-THOR and RECAP-THOR."></div>
+      <figcaption>Failure recovery performance on MAP-THOR and RECAP-THOR. Red arrows denote HiP-LR's improvement over the best baseline.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="examples">
+  <div class="wrap">
+    <h2>Qualitative Examples</h2>
+    <div class="pair">
+      <figure>
+        <h4>No Valid Position</h4>
+        <div class="shot"><img src="images/fig8_overfill.png" width="932" height="521" alt="A ladle cannot be placed in a full drawer. Baselines fail; HiP-LR places it in another drawer."></div>
+        <figcaption>When the drawer fills up, HiP-LR redirects the remaining items to another drawer instead of terminating.</figcaption>
+      </figure>
+      <figure>
+        <h4>One-Hand Limit</h4>
+        <div class="shot"><img src="images/fig9_onehand.png" width="933" height="674" alt="Baselines stop all robots during centralized replanning; HiP-LR stops only the affected robot while others continue and finish."></div>
+        <figcaption>Centralized replanning halts every robot. HiP-LR halts only the affected group, and the others finish earlier.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section id="citation">
+  <div class="wrap">
+    <div class="read">
+    <h2 class="left">BibTeX</h2>
+<pre>@inproceedings{lee2026hiplr,
+  title     = {{HiP-LR}: Hierarchical Planning with Localized Failure
+               Recovery for Long-Horizon Multi-Robot Tasks},
+  author    = {Lee, Chaerin and Kim, Seoyoon and Lee, Seungbeen and
+               Lee, Woojin and Song, Soohwan},
+  booktitle = {Findings of the Association for Computational
+               Linguistics: EMNLP 2026},
+  year      = {2026}
+}</pre>
+    </div>
+    <div class="read justify">
+      <h3 class="left">Acknowledgements</h3>
+      <p>This work was supported by the MSIT of the Republic of Korea through the National Research Foundation (NRF) (No. RS-2026-25489947) and the Commercialization Promotion Agency for R&amp;D Outcomes (COMPA) (No. 2710086167).</p>
+    </div>
+  </div>
+</section>
 
 <footer>
-  Findings of the ACL: EMNLP 2026
+  <div class="wrap">
+    <p>Website template adapted from <a href="https://github.com/nerfies/nerfies.github.io" target="_blank" rel="noopener">Nerfies</a>, licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>.</p>
+  </div>
 </footer>
-
-</div>
 
 </body>
 </html>
